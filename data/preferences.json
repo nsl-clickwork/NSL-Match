@@ -1,12 +1,26 @@
 [
   {
     "studentId": "NSL_Tien_NGUYEN_09.01.2000",
-    "rankings": [
-      "comp_infineon",
-      "comp_bosch",
-      "comp_siemens"
-    ],
-    "id": "msm0noo0sk6g",
-    "createdAt": "2026-08-09T16:27:56.448Z"
+    "rankings": ["comp_infineon", "comp_bosch", "comp_siemens"],
+    "id": "mock_pref_1",
+    "createdAt": "2026-08-01T10:00:00.000Z"
+  },
+  {
+    "studentId": "NSL_Khoi_NGUYEN_15.05.2001",
+    "rankings": ["comp_bosch", "comp_siemens", "comp_infineon"],
+    "id": "mock_pref_2",
+    "createdAt": "2026-08-02T10:00:00.000Z"
+  },
+  {
+    "studentId": "NSL_Linh_TRAN_10.10.1999",
+    "rankings": ["comp_siemens", "comp_infineon", "comp_bosch"],
+    "id": "mock_pref_3",
+    "createdAt": "2026-08-03T10:00:00.000Z"
+  },
+  {
+    "studentId": "NSL_Minh_LE_20.02.2001",
+    "rankings": ["comp_infineon", "comp_siemens", "comp_bosch"],
+    "id": "mock_pref_4",
+    "createdAt": "2026-08-04T10:00:00.000Z"
   }
 ]

@@ -3,7 +3,35 @@
     "companyId": "comp_infineon",
     "studentId": "NSL_Tien_NGUYEN_09.01.2000",
     "decision": "ACCEPT",
-    "id": "msm0o4p5929n",
-    "createdAt": "2026-08-09T16:28:17.225Z"
+    "id": "mock_dec_1",
+    "createdAt": "2026-08-05T10:00:00.000Z"
+  },
+  {
+    "companyId": "comp_bosch",
+    "studentId": "NSL_Khoi_NGUYEN_15.05.2001",
+    "decision": "ACCEPT",
+    "id": "mock_dec_2",
+    "createdAt": "2026-08-05T11:00:00.000Z"
+  },
+  {
+    "companyId": "comp_siemens",
+    "studentId": "NSL_Minh_LE_20.02.2001",
+    "decision": "ACCEPT",
+    "id": "mock_dec_3",
+    "createdAt": "2026-08-05T12:00:00.000Z"
+  },
+  {
+    "companyId": "comp_infineon",
+    "studentId": "NSL_Linh_TRAN_10.10.1999",
+    "decision": "DECLINE",
+    "id": "mock_dec_4",
+    "createdAt": "2026-08-05T13:00:00.000Z"
+  },
+  {
+    "companyId": "comp_bosch",
+    "studentId": "NSL_Tien_NGUYEN_09.01.2000",
+    "decision": "ACCEPT",
+    "id": "mock_dec_5",
+    "createdAt": "2026-08-05T14:00:00.000Z"
   }
 ]

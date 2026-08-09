@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "mock_intv_1",
+    "companyId": "comp_siemens",
+    "studentId": "NSL_Minh_LE_20.02.2001",
+    "startUTC": "2026-09-03T09:00:00.000Z",
+    "endUTC": "2026-09-03T10:00:00.000Z",
+    "status": "CONFIRMED_EMAIL_SENT",
+    "teamsLink": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_mock",
+    "createdAt": "2026-08-06T10:00:00.000Z"
+  }
+]

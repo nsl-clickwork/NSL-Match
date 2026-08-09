@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "mock_slot_1",
+    "companyId": "comp_infineon",
+    "studentId": "NSL_Tien_NGUYEN_09.01.2000",
+    "startUTC": "2026-09-01T08:00:00.000Z",
+    "endUTC": "2026-09-01T09:00:00.000Z"
+  },
+  {
+    "id": "mock_slot_2",
+    "companyId": "comp_infineon",
+    "studentId": "NSL_Tien_NGUYEN_09.01.2000",
+    "startUTC": "2026-09-01T10:00:00.000Z",
+    "endUTC": "2026-09-01T11:00:00.000Z"
+  },
+  {
+    "id": "mock_slot_3",
+    "companyId": "comp_bosch",
+    "studentId": "NSL_Khoi_NGUYEN_15.05.2001",
+    "startUTC": "2026-09-02T08:00:00.000Z",
+    "endUTC": "2026-09-02T09:00:00.000Z"
+  }
+]
