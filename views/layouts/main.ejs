@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'NSL Interview Scheduler' %></title>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1 style="margin: 0; color: var(--nsl-accent);">NSL Click & Work</h1>
+                <p style="margin: 0; color: var(--nsl-text-secondary); font-size: 14px;">Interview Scheduling Portal</p>
+            </div>
+            <% if (typeof userRole !== 'undefined') { %>
+                <div style="text-align: right;">
+                    <span class="badge badge-available"><%= userRole.toUpperCase() %> MODE</span>
+                </div>
+            <% } %>
+        </header>
+
+        <main>
+            <%- body %>
+        </main>
+        
+        <footer style="margin-top: 60px; text-align: center; color: var(--nsl-text-secondary); font-size: 13px;">
+            &copy; <%= new Date().getFullYear() %> New Solution GmbH. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

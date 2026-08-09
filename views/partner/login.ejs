@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Login - Interview Scheduler</title>
+    <link rel="icon" type="image/png" href="/assets/design/favicon_square.png">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/nsl-design-system.css">
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg-gray, #f5f5f5); color: var(--text-main, #333); animation: fadeIn 0.4s ease-out; }
+        .wavy-header { position: relative; height: 120px; overflow: hidden; }
+        .wavy-header svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .brand { position: absolute; top: 20px; left: 28px; z-index: 2; }
+        
+        .login-container { max-width: 480px; margin: 40px auto; text-align: center; padding: 0 20px; animation: fadeIn 0.5s ease-out 0.1s both; }
+        .main-logo { width: 100%; max-width: 380px; margin-bottom: 30px; transition: transform 0.3s ease; }
+        .main-logo:hover { transform: scale(1.02); }
+        
+        h1.title { font-size: 24px; font-weight: 900; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; color: #1a1a1a; }
+        p.subtitle { font-size: 13px; color: #666; font-weight: 600; margin-bottom: 30px; }
+
+        .tabs { display: flex; justify-content: center; border-bottom: 2px solid #ddd; margin-bottom: 30px; gap: 30px; }
+        .tab-link { cursor: pointer; text-decoration: none; font-size: 13px; font-weight: 800; color: #888; padding-bottom: 10px; border-bottom: 3px solid transparent; text-transform: uppercase; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .tab-link:hover { color: #1a1a1a; }
+        .tab-link.active { color: #1a1a1a; border-bottom: 3px solid var(--nsl-gold, #f2a900); }
+
+        .form-group { margin-bottom: 20px; text-align: left; transition: transform 0.2s; }
+        .form-group:focus-within { transform: translateX(3px); }
+        .form-label { display: block; font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; margin-bottom: 6px; text-align: center; letter-spacing: 0.5px; transition: color 0.2s; }
+        .form-group:focus-within .form-label { color: var(--nsl-gold, #f2a900); }
+        .form-control { width: 100%; box-sizing: border-box; padding: 12px 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; font-family: inherit; transition: all 0.25s ease; box-shadow: 0 0 0 rgba(242, 169, 0, 0); }
+        .form-control:focus { border-color: var(--nsl-gold, #f2a900); outline: none; box-shadow: 0 0 8px rgba(242, 169, 0, 0.2); }
+
+        .btn-submit { width: 100%; background: var(--nsl-gold, #f2a900); color: #fff; border: none; padding: 14px; font-size: 14px; font-weight: 900; border-radius: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.25s ease; margin-top: 10px; }
+        .btn-submit:hover { background: #d99700; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(217, 151, 0, 0.2); }
+        .btn-submit:active { transform: translateY(0); }
+
+        .footer-links { margin-top: 25px; font-size: 11px; font-weight: 600; color: #888; line-height: 1.8; opacity: 0; animation: fadeIn 0.5s ease-out 0.2s both; }
+        .footer-links a { color: var(--nsl-red, #cc1f1f); text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { text-decoration: underline; color: #a11414; }
+        
+        .alert { padding: 12px; border-radius: 4px; font-weight: 700; font-size: 13px; margin-bottom: 20px; text-align: left; animation: fadeIn 0.3s ease-out; }
+        .alert-danger { background: #fee; border: 1px solid #fcc; color: var(--nsl-red, #cc1f1f); }
+        
+        /* Fade transition for forms */
+        .auth-form { display: none; animation: fadeIn 0.3s ease-out; }
+        .auth-form.active { display: block; }
+    </style>
+</head>
+<body class="bg-pattern">
+    <div class="wavy-header">
+        <svg viewBox="0 0 1000 150" preserveAspectRatio="none">
+            <path d="M0,0 L1000,0 L1000,90 Q500,150 0,150 Z" fill="#f2a900" />
+            <path d="M0,0 L1000,0 L1000,150 Q600,150 200,0 Z" fill="#cc1f1f" />
+        </svg>
+        <div class="brand">
+            <img src="/assets/design/NSL_logo_mid.png" alt="NSL" style="height:54px; display:block;">
+        </div>
+        <div style="position: absolute; top: 25px; right: 30px; z-index: 2; font-weight: 800; color: #fff; font-size: 14px; opacity: 0.8; transition: opacity 0.2s; cursor: pointer;">
+            <a href="/lang/de" style="color:white; text-decoration:none;">DE</a> | 
+            <a href="/lang/en" style="color:white; text-decoration:none;">EN</a> | 
+            <a href="/lang/vi" style="color:white; text-decoration:none;">VI</a>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <img src="/assets/design/Logo_Mid_PersonalKampagne.png" alt="PersonalKampagne" class="main-logo">
+        
+        <h1 class="title"><%= __('INTERVIEW_SCHEDULER') %></h1>
+        <p class="subtitle"><%= __('PLEASE_CHOOSE_AREA') %></p>
+
+        <div class="tabs">
+            <span class="tab-link" onclick="switchTab('candidate')"><%= __('TALENTS') %></span>
+            <span class="tab-link active" onclick="switchTab('partner')"><%= __('PARTNER') %></span>
+        </div>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <form action="/candidate/do-login" method="POST" id="candidateForm" class="auth-form">
+            <div class="form-group">
+                <label class="form-label"><%= __('STUDENT_ID') %></label>
+                <input type="text" name="studentId" class="form-control" required placeholder="<%= __('ENTER_CANDIDATE_ID') %>">
+            </div>
+            <div class="form-group">
+                <label class="form-label"><%= __('EMAIL_ADDRESS') %></label>
+                <input type="email" name="email" class="form-control" required placeholder="<%= __('ENTER_YOUR_EMAIL') %>">
+            </div>
+            <button type="submit" class="btn-submit"><%= __('LOGIN_TALENTS') %></button>
+        </form>
+
+        <form action="/partner/do-login" method="POST" id="partnerForm" class="auth-form active">
+            <div class="form-group">
+                <label class="form-label"><%= __('PARTNER_CODE') %></label>
+                <input type="text" name="partnerCode" class="form-control" required placeholder="<%= __('ENTER_PARTNER_CODE') %>">
+            </div>
+            <div class="form-group">
+                <label class="form-label"><%= __('CONTACT_EMAIL') %></label>
+                <input type="email" name="email" class="form-control" required placeholder="<%= __('ENTER_YOUR_EMAIL') %>">
+            </div>
+            <button type="submit" class="btn-submit"><%= __('LOGIN_PARTNER') %></button>
+        </form>
+
+        <div class="footer-links">
+            <div><%= __('CONTACT_US') %> <a href="mailto:newsolution.eu@gmail.com">newsolution.eu@gmail.com</a></div>
+            <div><%= __('VIEW_OUR') %> <a href="#"><%= __('FAIR_POLICY') %></a></div>
+            <div style="margin-top: 10px;">&copy; <%= new Date().getFullYear() %> NSL. <%= __('ALL_RIGHTS') %></div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Update tabs
+            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+            if(tabName === 'candidate') {
+                document.querySelectorAll('.tab-link')[0].classList.add('active');
+                document.title = "Candidate Login - Interview Scheduler";
+                history.replaceState({}, '', '/candidate/login');
+            } else {
+                document.querySelectorAll('.tab-link')[1].classList.add('active');
+                document.title = "Partner Login - Interview Scheduler";
+                history.replaceState({}, '', '/partner/login');
+            }
+            
+            // Update forms
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(tabName + 'Form').classList.add('active');
+            
+            // Clear any previous error messages when switching tabs
+            const alertBox = document.querySelector('.alert');
+            if(alertBox) alertBox.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<%- include('../layouts/header', { title: __('SCHEDULING'), userRole: 'Partner' }) %>
+
+<div class="welcome">
+    <small><%= __('SCHEDULING') %></small>
+    <h1><%= __('TIME_SLOTS') %></h1>
+</div>
+
+<div class="card" style="max-width: 600px; margin: 0 auto;">
+    <p style="font-weight: 600; margin-bottom: 24px;">Provide available time slots for <strong><%= student ? student.fullName : 'Candidate' %></strong>.</p>
+
+    <div style="margin-bottom: 20px;">
+        <label class="form-label">Your Timezone</label>
+        <select id="globalTimezone" class="form-control">
+            <option value="Europe/Berlin" <%= company.timezone === 'Europe/Berlin' ? 'selected' : '' %>>Europe/Berlin (CET/CEST)</option>
+            <option value="Asia/Ho_Chi_Minh" <%= company.timezone === 'Asia/Ho_Chi_Minh' ? 'selected' : '' %>>Asia/Ho_Chi_Minh (ICT)</option>
+            <option value="UTC" <%= company.timezone === 'UTC' ? 'selected' : '' %>>UTC</option>
+        </select>
+    </div>
+
+    <form action="/partner/schedule/<%= student ? student.studentId : '' %>" method="POST" id="scheduleForm">
+        <input type="hidden" name="slots" id="slotsData" value="">
+        
+        <div id="slotsContainer">
+            <!-- Slot Template -->
+            <div class="slot-item" style="padding: 15px; border: 2px solid var(--text-main); border-radius: 8px; margin-bottom: 15px; background: #fafafa; box-shadow: 3px 3px 0 var(--text-main);">
+                <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+                    <div style="flex: 1;">
+                        <label class="form-label">Date</label>
+                        <input type="date" class="form-control slot-date" required style="margin-bottom: 0;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <div style="flex: 1;">
+                        <label class="form-label">Start Time</label>
+                        <input type="time" class="form-control slot-start" required style="margin-bottom: 0;">
+                    </div>
+                    <div style="flex: 1;">
+                        <label class="form-label">End Time</label>
+                        <input type="time" class="form-control slot-end" required style="margin-bottom: 0;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button type="button" class="btn-brutal" id="addSlotBtn" style="background: white; color: var(--text-main); width: 100%; margin-bottom: 24px; padding: 12px;">+ Add another slot</button>
+
+        <div style="text-align: center;">
+            <button type="submit" class="btn-brutal btn-red" style="padding: 12px 30px; font-size: 16px;"><%= __('SUBMIT_SLOTS') %></button>
+            <a href="/partner/candidates" class="btn-brutal" style="margin-left: 10px; background: white; color: var(--text-main);"><%= __('CANCEL') %></a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById('slotsContainer');
+        const addBtn = document.getElementById('addSlotBtn');
+        const form = document.getElementById('scheduleForm');
+
+        addBtn.addEventListener('click', function() {
+            const firstSlot = container.querySelector('.slot-item');
+            const newSlot = firstSlot.cloneNode(true);
+            newSlot.querySelector('.slot-date').value = '';
+            newSlot.querySelector('.slot-start').value = '';
+            newSlot.querySelector('.slot-end').value = '';
+            container.appendChild(newSlot);
+        });
+
+        form.addEventListener('submit', function(e) {
+            const tz = document.getElementById('globalTimezone').value;
+            const slotItems = container.querySelectorAll('.slot-item');
+            const slots = [];
+            
+            slotItems.forEach(item => {
+                const date = item.querySelector('.slot-date').value;
+                const start = item.querySelector('.slot-start').value;
+                const end = item.querySelector('.slot-end').value;
+                if(date && start && end) {
+                    slots.push({ date: date, startTime: start, endTime: end, timezone: tz });
+                }
+            });
+            
+            document.getElementById('slotsData').value = JSON.stringify(slots);
+        });
+    });
+</script>
+
+<%- include('../layouts/footer') %>

@@ -1,0 +1,84 @@
+<%- include('../layouts/header', { title: __('RANK_COMPANIES'), userRole: 'Candidate' }) %>
+
+<div class="welcome">
+    <small><%= __('STEP_1_WORKFLOW') %></small>
+    <h1><%= __('RANK_COMPANIES') %></h1>
+</div>
+
+<div class="card">
+    <p style="font-weight: 600; margin-bottom: 24px;">
+        <%= __('DRAG_DROP_DESC') %>
+    </p>
+
+    <form action="/candidate/rank" method="POST" id="rankForm">
+        <input type="hidden" name="rankings" id="rankingsData" value="">
+        
+        <ul id="sortableList" style="list-style: none; padding: 0; margin: 0;">
+            <% 
+                let displayOrder = [];
+                if (prefs && prefs.rankings) {
+                    displayOrder = prefs.rankings.map(id => companies.find(c => c.id === id)).filter(Boolean);
+                    companies.forEach(c => {
+                        if (!prefs.rankings.includes(c.id)) displayOrder.push(c);
+                    });
+                } else {
+                    displayOrder = companies;
+                }
+            %>
+            
+            <% displayOrder.forEach((company, index) => { %>
+                <li class="sortable-item" data-id="<%= company.id %>" style="background:#fff; border:2px solid var(--text-main); margin-bottom:10px; padding:15px; border-radius:8px; display:flex; align-items:center; cursor:grab; box-shadow:3px 3px 0 var(--text-main); transition: transform 0.1s;">
+                    <span class="rank-badge badge b-blue" style="margin-right: 15px; font-size: 14px; padding: 6px 12px;"><%= index + 1 %></span>
+                    <div style="display: flex; align-items: center; gap: 15px; flex-grow: 1;">
+                        <% if(company.logo) { %>
+                            <img src="<%= company.logo %>" alt="logo" style="width: 40px; height: 40px; object-fit: contain; border: 2px solid var(--text-main); border-radius: 4px; padding: 2px;">
+                        <% } %>
+                        <div>
+                            <div style="font-weight: 800;"><%= company.name %></div>
+                            <div style="font-size: 12px; font-weight: 600; color: #666;"><%= company.location %></div>
+                        </div>
+                    </div>
+                    <div style="cursor: grab;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button type="submit" class="btn-brutal btn-red" style="padding: 12px 30px; font-size: 16px;"><%= __('SUBMIT_RANKINGS') %></button>
+            <a href="/candidate/dashboard" class="btn-brutal" style="margin-left: 10px; background: white; color: var(--text-main);"><%= __('CANCEL') %></a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var el = document.getElementById('sortableList');
+        var sortable = Sortable.create(el, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: function () {
+                var items = el.querySelectorAll('.sortable-item');
+                items.forEach(function(item, index) {
+                    item.querySelector('.rank-badge').innerText = index + 1;
+                });
+            }
+        });
+
+        document.getElementById('rankForm').addEventListener('submit', function(e) {
+            var items = el.querySelectorAll('.sortable-item');
+            var rankings = [];
+            items.forEach(function(item) {
+                rankings.push(item.getAttribute('data-id'));
+            });
+            document.getElementById('rankingsData').value = JSON.stringify(rankings);
+        });
+    });
+</script>
+<style>
+    .sortable-ghost { opacity: 0.5; background: #f0f0f0 !important; box-shadow: none !important; }
+    .sortable-item:active { cursor: grabbing !important; transform: scale(0.98); }
+</style>
+
+<%- include('../layouts/footer') %>

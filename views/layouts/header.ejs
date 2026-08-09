@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'NSL Interview Scheduler' %></title>
+    <link rel="icon" type="image/png" href="/assets/design/favicon_square.png">
+    <link rel="stylesheet" href="/css/fonts.css">
+    <link rel="stylesheet" href="/css/nsl-design-system.css">
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <style>
+        :root { --gray:#9aa0a6; --blue:#4285F4; }
+        body { font-family:'Inter',sans-serif; margin:0; background:var(--bg-gray,#f5f5f5); color:var(--text-main,#333); }
+
+        /* Wavy Header */
+        .wavy-header { position:relative; height:150px; overflow:hidden; }
+        .wavy-header svg { position:absolute; inset:0; width:100%; height:100%; }
+        .header-controls { position:absolute; top:18px; right:24px; display:flex; align-items:center; gap:10px; z-index:2; flex-wrap:wrap; justify-content:flex-end; }
+        .header-link { color:#fff; text-decoration:none; font-weight:800; font-size:13px; border:2px solid #fff; padding:6px 13px; border-radius:30px; transition:all .15s; }
+        .header-link:hover { background:#fff; color:var(--nsl-red,#cc1f1f); }
+        .brand { position:absolute; top:20px; left:28px; z-index:2; }
+
+        .wrap { max-width:1040px; margin:24px auto 60px; padding:0 18px; }
+        
+        .welcome { margin:0 0 22px; }
+        .welcome small { color:var(--nsl-red,#cc1f1f); font-weight:800; text-transform:uppercase; letter-spacing:1px; font-size:13px; }
+        .welcome h1 { margin:2px 0 0; font-size:30px; font-weight:900; }
+
+        /* Neo-brutalist Card */
+        .card { background:#fff; border:2px solid var(--text-main,#333); border-radius:14px; padding:16px 18px; margin-bottom:16px; box-shadow:5px 5px 0 var(--text-main,#333); }
+        .card h2 { margin:0 0 12px; font-size:15px; text-transform:uppercase; letter-spacing:.6px; color:var(--nsl-red,#cc1f1f); font-weight:900; display:flex; align-items:center; gap:8px; }
+
+        .btn-brutal { background:var(--text-main,#333); color:#fff; border:2px solid var(--text-main,#333); border-radius:30px; padding:8px 16px; font-weight:800; font-size:12px; cursor:pointer; font-family:inherit; transition:all .15s; text-decoration:none; display:inline-block;}
+        .btn-brutal:hover { box-shadow:3px 3px 0 var(--nsl-red,#cc1f1f); transform:translate(-2px,-2px); }
+        .btn-red { background:var(--nsl-red,#cc1f1f); }
+        
+        .form-control { width:100%; padding:10px; border:2px solid var(--text-main); border-radius:8px; margin-bottom:15px; font-family:inherit; }
+        .form-label { font-weight:700; margin-bottom:5px; display:block; font-size:14px; }
+        
+        .alert { padding:12px; border:2px solid var(--text-main); border-radius:8px; font-weight:700; margin-bottom:15px; }
+        .alert-success { background:#d4edda; }
+        .alert-danger { background:#f8d7da; }
+
+        .badge { display:inline-block; padding:3px 11px; border-radius:20px; font-size:11px; font-weight:900; color:#fff; text-transform:uppercase; border:2px solid var(--text-main,#333); }
+        .b-blue { background:var(--blue); }
+        .b-green { background:var(--nsl-green,#27ae60); }
+        .b-red { background:var(--nsl-red,#cc1f1f); }
+        .b-gray { background:var(--gray); }
+    </style>
+</head>
+<body>
+    <div class="header-container" style="position: relative; z-index: 99;">
+        <div class="wavy-header">
+            <svg viewBox="0 0 1000 150" preserveAspectRatio="none">
+                <path d="M0,0 L1000,0 L1000,90 Q500,150 0,150 Z" fill="#f2a900" />
+                <path d="M0,0 L1000,0 L1000,150 Q600,150 200,0 Z" fill="#cc1f1f" />
+            </svg>
+        </div>
+        <div class="brand">
+            <img src="/assets/design/NSL_logo_mid.png" alt="NSL" style="height:54px; display:block;">
+            <div style="color: white; font-weight: 800; margin-top: 5px; font-size: 12px; text-transform: uppercase;">Interview Scheduler</div>
+        </div>
+        <div class="header-controls">
+            <div style="font-weight: 800; color: #fff; font-size: 13px; margin-right: 15px;">
+                <a href="/lang/de" style="color:white; text-decoration:none;">DE</a> | 
+                <a href="/lang/en" style="color:white; text-decoration:none;">EN</a> | 
+                <a href="/lang/vi" style="color:white; text-decoration:none;">VI</a>
+            </div>
+            <% if (typeof userRole !== 'undefined') { %>
+                <span class="header-link" style="border:none; cursor:default; background: rgba(255,255,255,0.2);"><%= __(userRole.toUpperCase()) %></span>
+                <% if (userRole.toLowerCase() === 'candidate') { %>
+                    <a href="/candidate/dashboard" class="header-link"><%= __('DASHBOARD') %></a>
+                    <a href="/candidate/login" class="header-link"><%= __('LOGOUT') %></a>
+                <% } else if (userRole.toLowerCase() === 'partner') { %>
+                    <a href="/partner/candidates" class="header-link"><%= __('DASHBOARD') %></a>
+                    <a href="/partner/login" class="header-link"><%= __('LOGOUT') %></a>
+                <% } else { %>
+                    <a href="/admin/dashboard" class="header-link"><%= __('DASHBOARD') %></a>
+                    <a href="/admin/login" class="header-link"><%= __('LOGOUT') %></a>
+                <% } %>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class="wrap">

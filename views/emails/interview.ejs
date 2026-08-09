@@ -1,0 +1,40 @@
+<div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #0d1117; margin-bottom: 5px;">Interview Confirmed</h1>
+        <p style="color: #58a6ff; font-weight: 600; margin-top: 0;">Phỏng vấn đã được xác nhận</p>
+    </div>
+
+    <div style="background-color: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 24px; margin-bottom: 24px;">
+        <p style="margin-top: 0;"><strong>Candidate / Thí sinh:</strong> <%= studentName %></p>
+        <p style="margin-bottom: 0;"><strong>Company / Doanh nghiệp:</strong> <%= companyName %></p>
+    </div>
+
+    <h3 style="color: #24292f; border-bottom: 1px solid #d0d7de; padding-bottom: 8px;">📅 Schedule / Lịch hẹn</h3>
+    <ul style="list-style-type: none; padding-left: 0; margin-bottom: 24px;">
+        <li style="margin-bottom: 8px;">🇻🇳 <strong>Vietnam Time:</strong> <%= vnDateTime %></li>
+        <li>🇩🇪 <strong>Germany Time:</strong> <%= deDateTime %></li>
+    </ul>
+
+    <h3 style="color: #24292f; border-bottom: 1px solid #d0d7de; padding-bottom: 8px;">📎 Meeting Link</h3>
+    <% if (teamsLink) { %>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="<%= teamsLink %>" style="background-color: #5b5fc7; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; display: inline-block;">
+                Join Microsoft Teams Meeting
+            </a>
+        </div>
+        <p style="font-size: 13px; color: #57606a;">If the button doesn't work, copy this link: <br><a href="<%= teamsLink %>" style="color: #0969da;"><%= teamsLink %></a></p>
+    <% } else { %>
+        <p style="color: #cf222e;">Teams link is not available yet. The meeting link will be updated soon.</p>
+    <% } %>
+
+    <hr style="border: 0; border-top: 1px solid #d0d7de; margin: 30px 0;">
+    
+    <p style="text-align: center; color: #57606a;">
+        Please join the meeting 5 minutes early.<br>
+        Vui lòng tham gia cuộc họp trước 5 phút.
+    </p>
+    
+    <p style="text-align: center; font-size: 12px; color: #8c959f; margin-top: 40px;">
+        &copy; <%= new Date().getFullYear() %> NSL Click & Work. All rights reserved.
+    </p>
+</div>

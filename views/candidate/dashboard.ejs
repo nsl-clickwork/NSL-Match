@@ -1,0 +1,115 @@
+<%- include('../layouts/header', { title: __('CANDIDATE_DASHBOARD'), userRole: 'Candidate' }) %>
+
+<div class="welcome">
+    <small><%= __('WELCOME_BACK') %></small>
+    <h1><%= student.fullName %></h1>
+</div>
+
+<% if (typeof req !== 'undefined' && req.query.success) { %>
+    <div class="alert alert-success"><%= req.query.success %></div>
+<% } %>
+<% if (typeof req !== 'undefined' && req.query.error) { %>
+    <div class="alert alert-danger"><%= req.query.error %></div>
+<% } %>
+
+<div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px;">
+    <!-- Sidebar -->
+    <div>
+        <div class="card">
+            <h2><%= __('PROFILE_INFO') %></h2>
+            <div style="font-weight: 700; margin-bottom: 5px;"><%= student.email %></div>
+            <div class="badge b-gray" style="margin-bottom: 15px;"><%= __('ID') %>: <%= student.studentId.split('_').pop() %></div>
+            
+            <h3 style="font-size: 14px; text-transform: uppercase; margin: 15px 0 10px;"><%= __('MY_PRIORITIES') %></h3>
+            <% if (prefs && prefs.rankings && prefs.rankings.length > 0) { %>
+                <ol style="padding-left: 20px; margin-bottom: 20px; font-weight: 600;">
+                    <% prefs.rankings.forEach(id => { 
+                        const c = companies.find(c => c.id === id);
+                        if(c) { %>
+                            <li style="margin-bottom: 8px;"><%= c.name %></li>
+                    <% }}) %>
+                </ol>
+                <a href="/candidate/rank" class="btn-brutal btn-red" style="width: 100%; text-align: center; box-sizing: border-box;"><%= __('EDIT_RANKINGS') %></a>
+            <% } else { %>
+                <p style="font-size: 13px; font-weight: 600; color: #666;"><%= __('NO_RANKINGS_YET') %></p>
+                <a href="/candidate/rank" class="btn-brutal btn-red" style="width: 100%; text-align: center; box-sizing: border-box;"><%= __('RANK_COMPANIES_NOW') %></a>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div>
+        <!-- Action Required -->
+        <div class="card">
+            <h2><%= __('ACTION_REQUIRED_PICK_SLOT') %></h2>
+            <% if (availableSlots && availableSlots.length > 0) { 
+                const slotsByCompany = {};
+                availableSlots.forEach(s => {
+                    if(!slotsByCompany[s.companyId]) slotsByCompany[s.companyId] = [];
+                    slotsByCompany[s.companyId].push(s);
+                });
+            %>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <% Object.keys(slotsByCompany).forEach(compId => { 
+                        const c = companies.find(c => c.id === compId);
+                        const slots = slotsByCompany[compId];
+                    %>
+                        <div style="border: 2px solid var(--text-main); border-radius: 12px; padding: 15px; box-shadow: 3px 3px 0 var(--text-main);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: center;">
+                                <div style="font-weight: 900; font-size: 16px;"><%= c ? c.name : __('UNKNOWN') %> <%= __('HAS_INVITED_YOU') %></div>
+                                <div class="badge b-blue"><%= slots.length %> <%= __('SLOTS') %></div>
+                            </div>
+                            
+                            <form action="/candidate/select-slot" method="POST">
+                                <% slots.forEach(slot => { 
+                                    const vnTime = new Date(slot.startUTC).toLocaleString('vi-VN', {
+                                        timeZone: 'Asia/Ho_Chi_Minh',
+                                        weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+                                    });
+                                %>
+                                    <label style="display: flex; align-items: center; cursor: pointer; padding: 10px; border: 2px dashed var(--text-main); border-radius: 6px; margin-bottom: 10px; transition: background 0.15s;">
+                                        <input type="radio" name="slotId" value="<%= slot.id %>" required style="margin-right: 15px; transform: scale(1.2);">
+                                        <span style="font-weight: 700;"><%= vnTime %> (<%= __('VN_TIME') %>)</span>
+                                    </label>
+                                <% }) %>
+                                <button type="submit" class="btn-brutal btn-red" style="margin-top: 10px;"><%= __('CONFIRM_SELECTION') %></button>
+                            </form>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <p style="font-weight: 600; color: #666; margin: 0;"><%= __('WAITING_PARTNER_SCHEDULE') %></p>
+            <% } %>
+        </div>
+
+        <!-- Confirmed Interviews -->
+        <div class="card">
+            <h2><%= __('CONFIRMED_SCHEDULES') %></h2>
+            <% if (interviews && interviews.length > 0) { %>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <% interviews.forEach(intv => { 
+                        const c = companies.find(c => c.id === intv.companyId);
+                    %>
+                        <div style="border: 2px solid var(--nsl-green); border-radius: 12px; padding: 15px; box-shadow: 3px 3px 0 var(--nsl-green); display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 900; font-size: 16px; margin-bottom: 5px;"><%= __('INTERVIEW_WITH') %> <%= c ? c.name : __('UNKNOWN') %></div>
+                                <div class="badge b-green"><%= intv.status %></div>
+                            </div>
+                            <div>
+                                <% if (intv.teamsLink) { %>
+                                    <a href="<%= intv.teamsLink %>" target="_blank" class="btn-brutal" style="background: #5b5fc7;"><%= __('JOIN_TEAMS') %></a>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div style="text-align: center; padding: 20px;">
+                    <p style="font-weight: 600; color: #666;"><%= __('NO_CONFIRMED_INTERVIEWS') %></p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

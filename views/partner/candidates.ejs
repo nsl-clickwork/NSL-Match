@@ -1,0 +1,70 @@
+<%- include('../layouts/header', { title: __('DASHBOARD'), userRole: 'Partner' }) %>
+
+<div class="welcome">
+    <small><%= __('DASHBOARD') %></small>
+    <h1><%= __('TALENTS') %></h1>
+</div>
+
+<% if (typeof req !== 'undefined' && req.query.success) { %>
+    <div class="alert alert-success">✅ <%= req.query.success %></div>
+<% } %>
+
+<div class="card">
+    <h2>Candidates Review</h2>
+    <p style="font-weight: 600; margin-bottom: 24px; color: #666;">Candidates who have ranked your company in their preferences.</p>
+
+    <div style="display: grid; gap: 15px;">
+        <% if (candidates && candidates.length > 0) { %>
+            <% candidates.forEach(c => { %>
+                <div style="border: 2px solid var(--text-main); border-radius: 12px; padding: 15px; box-shadow: 3px 3px 0 var(--text-main); display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="width: 50px; height: 50px; border-radius: 25px; border: 2px solid var(--text-main); background: #eee; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #888;">
+                                NSL
+                            </div>
+                            <div>
+                                <div style="font-weight: 900; font-size: 16px;"><%= c.fullName %></div>
+                                <div style="font-weight: 600; font-size: 13px; color: #666;">Deutsch: <%= c.deutschLevel %> | Strengths: <%= c.strength1 %> <%= c.strength2 ? `, ${c.strength2}` : '' %></div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="badge b-blue" style="margin-bottom: 5px;">Preference: #<%= c.rankPosition %></div>
+                            <div>
+                                <% if (c.decision === 'ACCEPT') { %>
+                                    <span class="badge b-green"><%= __('ACCEPTED') %></span>
+                                <% } else if (c.decision === 'DECLINE') { %>
+                                    <span class="badge b-red"><%= __('DECLINED') %></span>
+                                <% } else { %>
+                                    <span class="badge b-gray"><%= __('PENDING') %></span>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% if (!c.decision) { %>
+                        <div style="display: flex; gap: 10px; border-top: 2px dashed var(--text-main); padding-top: 15px;">
+                            <form action="/partner/candidates/<%= c.studentId %>/decide" method="POST" style="margin: 0;">
+                                <input type="hidden" name="decision" value="ACCEPT">
+                                <button type="submit" class="btn-brutal" style="background: var(--nsl-green);"><%= __('ACCEPT_AND_SCHEDULE') %></button>
+                            </form>
+                            <form action="/partner/candidates/<%= c.studentId %>/decide" method="POST" style="margin: 0;">
+                                <input type="hidden" name="decision" value="DECLINE">
+                                <button type="submit" class="btn-brutal btn-red"><%= __('DECLINE') %></button>
+                            </form>
+                        </div>
+                    <% } else if (c.decision === 'ACCEPT') { %>
+                        <div style="border-top: 2px dashed var(--text-main); padding-top: 15px;">
+                            <a href="/partner/schedule/<%= c.studentId %>" class="btn-brutal" style="background: var(--blue);"><%= __('PROVIDE_TIME_SLOTS') %></a>
+                        </div>
+                    <% } %>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div style="text-align: center; padding: 40px 20px; background: #fafafa; border: 2px dashed #ccc; border-radius: 8px;">
+                <p style="font-weight: 600; color: #666; margin: 0;">No candidates have ranked your company yet.</p>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

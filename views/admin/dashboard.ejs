@@ -1,0 +1,140 @@
+<%- include('../layouts/header', { title: __('ADMIN_DASHBOARD'), userRole: 'Admin' }) %>
+
+<div class="welcome">
+    <small><%= __('ADMINISTRATION') %></small>
+    <h1><%= __('INTERVIEW_PIPELINE_DASHBOARD') %></h1>
+</div>
+
+<div class="card">
+    <p style="font-weight: 600; margin-bottom: 24px; color: #666;"><%= __('OVERVIEW_OF_ALL_CANDIDATES_AND_THEIR_INTERVIEW_PROGRESS') %></p>
+
+    <!-- Basic Stats -->
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+        <div style="padding: 20px; background: #fff; border: 2px solid var(--text-main); border-radius: 8px; text-align: center; box-shadow: 3px 3px 0 var(--text-main);">
+            <div style="font-size: 32px; font-weight: 900; color: var(--text-main);"><%= students.length %></div>
+            <div style="font-weight: 700; font-size: 14px; text-transform: uppercase;">Total Candidates</div>
+        </div>
+        <div style="padding: 20px; background: #fff; border: 2px solid var(--text-main); border-radius: 8px; text-align: center; box-shadow: 3px 3px 0 var(--text-main);">
+            <div style="font-size: 32px; font-weight: 900; color: var(--blue);"><%= preferences.length %></div>
+            <div style="font-weight: 700; font-size: 14px; text-transform: uppercase;">Rankings Submitted</div>
+        </div>
+        <div style="padding: 20px; background: #fff; border: 2px solid var(--text-main); border-radius: 8px; text-align: center; box-shadow: 3px 3px 0 var(--text-main);">
+            <div style="font-size: 32px; font-weight: 900; color: var(--nsl-green);"><%= interviews.length %></div>
+            <div style="font-weight: 700; font-size: 14px; text-transform: uppercase;">Interviews Scheduled</div>
+        </div>
+    </div>
+
+    <!-- Confirmed Interviews Table -->
+    <h2>Confirmed Interviews</h2>
+    <% if (interviews.length > 0) { %>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; border: 2px solid var(--text-main);">
+                <thead>
+                    <tr style="background: var(--text-main); color: #fff; text-align: left;">
+                        <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('CANDIDATE') %></th>
+                        <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('COMPANY') %></th>
+                        <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('DATE_TIME_UTC') %></th>
+                        <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('STATUS') %></th>
+                        <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('ACTIONS') %></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% interviews.forEach(intv => { 
+                        const s = students.find(st => st.studentId === intv.studentId) || { fullName: intv.studentId };
+                        const c = companies.find(c => c.id === intv.companyId) || { name: 'Unknown' };
+                        const slot = slots.find(sl => sl.id === intv.slotId) || {};
+                        const isError = intv.status.includes('NO_');
+                    %>
+                    <tr style="border-bottom: 1px solid var(--text-main);">
+                        <td style="padding: 12px; font-weight: 700; border: 1px solid var(--text-main);"><%= s.fullName %></td>
+                        <td style="padding: 12px; border: 1px solid var(--text-main);"><%= c.name %></td>
+                        <td style="padding: 12px; border: 1px solid var(--text-main);"><%= slot.startUTC ? new Date(slot.startUTC).toLocaleString() : 'N/A' %></td>
+                        <td style="padding: 12px; border: 1px solid var(--text-main);">
+                            <span class="badge <%= isError ? 'b-red' : 'b-green' %>">
+                                <%= intv.status %>
+                            </span>
+                        </td>
+                        <td style="padding: 12px; border: 1px solid var(--text-main);">
+                            <% if (intv.teamsLink) { %>
+                                <a href="<%= intv.teamsLink %>" target="_blank" style="font-size: 12px; font-weight: 700; margin-right: 10px; color: var(--blue);"><%= __('TEAMS') %></a>
+                            <% } %>
+                            <% if (intv.status === 'CONFIRMED_NO_EMAIL') { %>
+                                <button class="btn-brutal" style="padding: 4px 8px; font-size: 11px;"><%= __('RETRY_EMAIL') %></button>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <p style="font-weight: 600; color: #666; margin-bottom: 30px;"><%= __('NO_INTERVIEWS_CONFIRMED') %></p>
+    <% } %>
+
+    <!-- All Students Tracking -->
+    <h2><%= __('CANDIDATE_TRACKING_PIPELINE') %></h2>
+    <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; border: 2px solid var(--text-main);">
+            <thead>
+                <tr style="background: var(--text-main); color: #fff; text-align: left;">
+                    <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('CANDIDATE') %></th>
+                    <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('TOP_PREFERENCES') %></th>
+                    <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('PARTNER_DECISIONS') %></th>
+                    <th style="padding: 12px; border: 1px solid var(--text-main);"><%= __('STATUS') %></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% students.forEach(s => { 
+                    const pref = preferences.find(p => p.studentId === s.studentId);
+                    const decs = decisions.filter(d => d.studentId === s.studentId);
+                    const hasInterview = interviews.some(i => i.studentId === s.studentId);
+                %>
+                <tr style="border-bottom: 1px solid var(--text-main);">
+                    <td style="padding: 12px; font-weight: 700; border: 1px solid var(--text-main);"><%= s.fullName %></td>
+                    <td style="padding: 12px; border: 1px solid var(--text-main);">
+                        <% if(pref) { %>
+                            <ol style="margin: 0; padding-left: 15px; font-weight: 600;">
+                                <% pref.rankings.forEach(cid => { 
+                                    const c = companies.find(c => c.id === cid);
+                                    if(c) { %> <li><%= c.name %></li> <% }
+                                }) %>
+                            </ol>
+                        <% } else { %>
+                            <span style="color: #888; font-style: italic;"><%= __('NOT_RANKED') %></span>
+                        <% } %>
+                    </td>
+                    <td style="padding: 12px; border: 1px solid var(--text-main);">
+                        <% if(decs.length > 0) { %>
+                            <ul style="margin: 0; padding-left: 0; list-style: none;">
+                                <% decs.forEach(d => { 
+                                    const c = companies.find(c => c.id === d.companyId);
+                                %> 
+                                <li style="margin-bottom: 4px;">
+                                    <span style="font-weight: 600;"><%= c ? c.name : __('UNKNOWN') %>:</span> 
+                                    <strong style="color: <%= d.decision === 'ACCEPT' ? 'var(--nsl-green)' : 'var(--nsl-red)' %>;"><%= d.decision %></strong>
+                                </li> 
+                                <% }) %>
+                            </ul>
+                        <% } else { %>
+                            -
+                        <% } %>
+                    </td>
+                    <td style="padding: 12px; border: 1px solid var(--text-main);">
+                        <% if (hasInterview) { %>
+                            <span class="badge b-green"><%= __('SCHEDULED') %></span>
+                        <% } else if (decs.some(d => d.decision === 'ACCEPT')) { %>
+                            <span class="badge b-blue"><%= __('ACTION_REQUIRED_CANDIDATE') %></span>
+                        <% } else if (pref) { %>
+                            <span class="badge b-gray"><%= __('WAITING_FOR_PARTNER') %></span>
+                        <% } else { %>
+                            <span class="badge b-red"><%= __('NOT_STARTED') %></span>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('../layouts/footer') %>

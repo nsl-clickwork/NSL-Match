@@ -1,0 +1,29 @@
+[
+  {
+    "id": "comp_infineon",
+    "name": "Infineon Technologies",
+    "location": "Munich, Germany",
+    "timezone": "Europe/Berlin",
+    "contactEmail": "hr@infineon.com",
+    "partnerCode": "INF2026",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Infineon-Logo.svg/1200px-Infineon-Logo.svg.png"
+  },
+  {
+    "id": "comp_bosch",
+    "name": "Robert Bosch GmbH",
+    "location": "Stuttgart, Germany",
+    "timezone": "Europe/Berlin",
+    "contactEmail": "hr@bosch.com",
+    "partnerCode": "BOSCH26",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Bosch-Logo.svg/1200px-Bosch-Logo.svg.png"
+  },
+  {
+    "id": "comp_siemens",
+    "name": "Siemens AG",
+    "location": "Berlin, Germany",
+    "timezone": "Europe/Berlin",
+    "contactEmail": "hr@siemens.com",
+    "partnerCode": "SIE2026",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Siemens-logo.svg/1200px-Siemens-logo.svg.png"
+  }
+]
