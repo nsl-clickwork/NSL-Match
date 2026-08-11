@@ -6,14 +6,13 @@
 </div>
 
 <div class="card" style="max-width: 600px; margin: 0 auto;">
-    <p style="font-weight: 600; margin-bottom: 24px;">Provide available time slots for <strong><%= student ? student.fullName : 'Candidate' %></strong>.</p>
+    <p style="font-weight: 600; margin-bottom: 24px;"><%= __('PROVIDE_AVAILABLE_TIME_SLOTS_FOR') %> <strong><%= student ? student.fullName : __('CANDIDATE') %></strong>.</p>
 
     <div style="margin-bottom: 20px;">
-        <label class="form-label">Your Timezone</label>
+        <label class="form-label"><%= __('YOUR_TIMEZONE') %></label>
         <select id="globalTimezone" class="form-control">
             <option value="Europe/Berlin" <%= company.timezone === 'Europe/Berlin' ? 'selected' : '' %>>Europe/Berlin (CET/CEST)</option>
             <option value="Asia/Ho_Chi_Minh" <%= company.timezone === 'Asia/Ho_Chi_Minh' ? 'selected' : '' %>>Asia/Ho_Chi_Minh (ICT)</option>
-            <option value="UTC" <%= company.timezone === 'UTC' ? 'selected' : '' %>>UTC</option>
         </select>
     </div>
 
@@ -25,24 +24,24 @@
             <div class="slot-item" style="padding: 15px; border: 2px solid var(--text-main); border-radius: 8px; margin-bottom: 15px; background: #fafafa; box-shadow: 3px 3px 0 var(--text-main);">
                 <div style="display: flex; gap: 15px; margin-bottom: 10px;">
                     <div style="flex: 1;">
-                        <label class="form-label">Date</label>
+                        <label class="form-label"><%= __('DATE') %></label>
                         <input type="date" class="form-control slot-date" required style="margin-bottom: 0;">
                     </div>
                 </div>
                 <div style="display: flex; gap: 15px;">
                     <div style="flex: 1;">
-                        <label class="form-label">Start Time</label>
+                        <label class="form-label"><%= __('START_TIME') %></label>
                         <input type="time" class="form-control slot-start" required style="margin-bottom: 0;">
                     </div>
                     <div style="flex: 1;">
-                        <label class="form-label">End Time</label>
+                        <label class="form-label"><%= __('END_TIME') %></label>
                         <input type="time" class="form-control slot-end" required style="margin-bottom: 0;">
                     </div>
                 </div>
             </div>
         </div>
         
-        <button type="button" class="btn-brutal" id="addSlotBtn" style="background: white; color: var(--text-main); width: 100%; margin-bottom: 24px; padding: 12px;">+ Add another slot</button>
+        <button type="button" class="btn-brutal" id="addSlotBtn" style="background: white; color: var(--text-main); width: 100%; margin-bottom: 24px; padding: 12px;"><%= __('ADD_ANOTHER_SLOT') %></button>
 
         <div style="text-align: center;">
             <button type="submit" class="btn-brutal btn-red" style="padding: 12px 30px; font-size: 16px;"><%= __('SUBMIT_SLOTS') %></button>

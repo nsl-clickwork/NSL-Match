@@ -82,5 +82,17 @@
     "WAITING_PARTNER_SCHEDULE": "Đang chờ đối tác xem xét và xếp lịch.",
     "CONFIRMED_SCHEDULES": "Lịch đã xác nhận",
     "INTERVIEW_WITH": "Phỏng vấn với",
-    "JOIN_TEAMS": "Tham gia Teams"
+    "JOIN_TEAMS": "Tham gia Teams",
+    "PROVIDE_AVAILABLE_TIME_SLOTS_FOR": "Cung cấp thời gian rảnh cho",
+    "YOUR_TIMEZONE": "Múi giờ của bạn",
+    "DATE": "Ngày",
+    "START_TIME": "Giờ bắt đầu",
+    "END_TIME": "Giờ kết thúc",
+    "CANDIDATES_REVIEW": "Đánh giá Ứng viên",
+    "CANDIDATES_RANKED_COMPANY": "Những ứng viên đã xếp hạng công ty của bạn.",
+    "DEUTSCH": "Tiếng Đức",
+    "STRENGTHS": "Điểm mạnh",
+    "PREFERENCE": "Nguyện vọng",
+    "NO_CANDIDATES_YET": "Chưa có ứng viên nào xếp hạng công ty của bạn.",
+    "INTERVIEW_CONFIRMED": "Đã chốt Lịch Phỏng vấn"
 }

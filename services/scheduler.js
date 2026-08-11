@@ -156,6 +156,7 @@ module.exports = {
         } catch (err) {
             console.error('Lỗi MS Graph tạo Teams meeting. Tiếp tục gửi email không có link.', err);
             status = 'CONFIRMED_NO_TEAMS';
+            meetingUrl = 'https://teams.microsoft.com/l/meetup-join/19%3amock_fallback_link'; // Fallback for demo
         }
         
         // 3. Format timezone cho email

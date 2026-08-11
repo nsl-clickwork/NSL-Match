@@ -10,8 +10,8 @@
 <% } %>
 
 <div class="card">
-    <h2>Candidates Review</h2>
-    <p style="font-weight: 600; margin-bottom: 24px; color: #666;">Candidates who have ranked your company in their preferences.</p>
+    <h2><%= __('CANDIDATES_REVIEW') %></h2>
+    <p style="font-weight: 600; margin-bottom: 24px; color: #666;"><%= __('CANDIDATES_RANKED_COMPANY') %></p>
 
     <div style="display: grid; gap: 15px;">
         <% if (candidates && candidates.length > 0) { %>
@@ -24,11 +24,11 @@
                             </div>
                             <div>
                                 <div style="font-weight: 900; font-size: 16px;"><%= c.fullName %></div>
-                                <div style="font-weight: 600; font-size: 13px; color: #666;">Deutsch: <%= c.deutschLevel %> | Strengths: <%= c.strength1 %> <%= c.strength2 ? `, ${c.strength2}` : '' %></div>
+                                <div style="font-weight: 600; font-size: 13px; color: #666;"><%= __('DEUTSCH') %>: <%= c.deutschLevel %> | <%= __('STRENGTHS') %>: <%= c.strength1 %> <%= c.strength2 ? `, ${c.strength2}` : '' %></div>
                             </div>
                         </div>
                         <div style="text-align: right;">
-                            <div class="badge b-blue" style="margin-bottom: 5px;">Preference: #<%= c.rankPosition %></div>
+                            <div class="badge b-blue" style="margin-bottom: 5px;"><%= __('PREFERENCE') %>: #<%= c.rankPosition %></div>
                             <div>
                                 <% if (c.decision === 'ACCEPT') { %>
                                     <span class="badge b-green"><%= __('ACCEPTED') %></span>
@@ -54,14 +54,28 @@
                         </div>
                     <% } else if (c.decision === 'ACCEPT') { %>
                         <div style="border-top: 2px dashed var(--text-main); padding-top: 15px;">
-                            <a href="/partner/schedule/<%= c.studentId %>" class="btn-brutal" style="background: var(--blue);"><%= __('PROVIDE_TIME_SLOTS') %></a>
+                            <% if (c.interview && c.slot) { %>
+                                <div style="padding: 15px; background: var(--nsl-yellow); border: 2px solid var(--text-main); box-shadow: 2px 2px 0 var(--text-main); border-radius: 8px;">
+                                    <div style="font-weight: 900; font-size: 15px; text-transform: uppercase; color: var(--text-main); margin-bottom: 5px;"><%= __('INTERVIEW_CONFIRMED') %></div>
+                                    <div style="font-size: 14px; font-weight: 700; color: var(--text-main);">
+                                        <%= new Date(c.slot.startUTC).toLocaleString('en-GB', { timeZone: company.timezone, weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) %> - 
+                                        <%= new Date(c.slot.endUTC).toLocaleString('en-GB', { timeZone: company.timezone, hour: '2-digit', minute: '2-digit' }) %> 
+                                        (<%= company.timezone %>)
+                                    </div>
+                                    <% if (c.interview.teamsLink) { %>
+                                        <a href="<%= c.interview.teamsLink %>" target="_blank" class="btn-brutal" style="display: inline-block; margin-top: 10px; padding: 8px 15px; background: white; color: var(--text-main); font-size: 13px; text-decoration: none;"><%= __('JOIN_TEAMS') %></a>
+                                    <% } %>
+                                </div>
+                            <% } else { %>
+                                <a href="/partner/schedule/<%= c.studentId %>" class="btn-brutal" style="background: var(--blue);"><%= __('PROVIDE_TIME_SLOTS') %></a>
+                            <% } %>
                         </div>
                     <% } %>
                 </div>
             <% }) %>
         <% } else { %>
             <div style="text-align: center; padding: 40px 20px; background: #fafafa; border: 2px dashed #ccc; border-radius: 8px;">
-                <p style="font-weight: 600; color: #666; margin: 0;">No candidates have ranked your company yet.</p>
+                <p style="font-weight: 600; color: #666; margin: 0;"><%= __('NO_CANDIDATES_YET') %></p>
             </div>
         <% } %>
     </div>

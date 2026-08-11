@@ -43,10 +43,17 @@ router.get('/candidates', async (req, res) => {
     const candidates = preferences.map(pref => {
         const s = allStudents.find(st => st.studentId === pref.studentId) || { fullName: "Unknown", studentId: pref.studentId };
         const decision = store.decisions.readAll().find(d => d.companyId === companyId && d.studentId === pref.studentId);
+        const interview = store.interviews.readAll().find(i => i.companyId === companyId && i.studentId === pref.studentId);
+        let slot = null;
+        if (interview && interview.slotId) {
+            slot = store.slots.findById(interview.slotId);
+        }
         return {
             ...s,
             rankPosition: pref.rankings.indexOf(companyId) + 1,
-            decision: decision ? decision.decision : null
+            decision: decision ? decision.decision : null,
+            interview,
+            slot
         };
     });
     

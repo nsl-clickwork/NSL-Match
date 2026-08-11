@@ -82,5 +82,17 @@
     "WAITING_PARTNER_SCHEDULE": "Warten darauf, dass Partner Termine überprüfen und planen.",
     "CONFIRMED_SCHEDULES": "Bestätigte Termine",
     "INTERVIEW_WITH": "Interview mit",
-    "JOIN_TEAMS": "Teams beitreten"
+    "JOIN_TEAMS": "Teams beitreten",
+    "PROVIDE_AVAILABLE_TIME_SLOTS_FOR": "Verfügbare Zeitfenster angeben für",
+    "YOUR_TIMEZONE": "Ihre Zeitzone",
+    "DATE": "Datum",
+    "START_TIME": "Startzeit",
+    "END_TIME": "Endzeit",
+    "CANDIDATES_REVIEW": "Kandidaten-Überprüfung",
+    "CANDIDATES_RANKED_COMPANY": "Kandidaten, die Ihr Unternehmen in ihren Präferenzen bewertet haben.",
+    "DEUTSCH": "Deutsch",
+    "STRENGTHS": "Stärken",
+    "PREFERENCE": "Präferenz",
+    "NO_CANDIDATES_YET": "Noch hat kein Kandidat Ihr Unternehmen bewertet.",
+    "INTERVIEW_CONFIRMED": "Interview bestätigt"
 }

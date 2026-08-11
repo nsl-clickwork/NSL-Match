@@ -82,5 +82,17 @@
     "WAITING_PARTNER_SCHEDULE": "Waiting for partners to review and schedule slots.",
     "CONFIRMED_SCHEDULES": "Confirmed Schedules",
     "INTERVIEW_WITH": "Interview with",
-    "JOIN_TEAMS": "Join Teams"
+    "JOIN_TEAMS": "Join Teams",
+    "PROVIDE_AVAILABLE_TIME_SLOTS_FOR": "Provide available time slots for",
+    "YOUR_TIMEZONE": "Your Timezone",
+    "DATE": "Date",
+    "START_TIME": "Start Time",
+    "END_TIME": "End Time",
+    "CANDIDATES_REVIEW": "Candidates Review",
+    "CANDIDATES_RANKED_COMPANY": "Candidates who have ranked your company in their preferences.",
+    "DEUTSCH": "Deutsch",
+    "STRENGTHS": "Strengths",
+    "PREFERENCE": "Preference",
+    "NO_CANDIDATES_YET": "No candidates have ranked your company yet.",
+    "INTERVIEW_CONFIRMED": "Interview Confirmed"
 }

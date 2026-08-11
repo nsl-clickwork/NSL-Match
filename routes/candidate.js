@@ -41,7 +41,10 @@ router.get('/dashboard', async (req, res) => {
     
     // Check if any partner has submitted slots for this student
     const availableSlots = store.slots.findBy('studentId', studentId).filter(s => s.status === 'AVAILABLE' && new Date(s.startUTC) > new Date());
-    const interviews = store.interviews.findBy('studentId', studentId);
+    const interviews = store.interviews.findBy('studentId', studentId).map(intv => {
+        const slot = store.slots.findById(intv.slotId);
+        return { ...intv, slot };
+    });
     
     res.render('candidate/dashboard', { 
         student, 
